@@ -1,7 +1,7 @@
 # File: lifecount.py
 # This short program in Python, when given a date of birth, computes the number of days, 
 # hours, minutes and seconds we've been alive. 
-# Copyright 2018 Biko Pougala. All rights reserved. 
+# Created by Biko Pougala on 6th January, 2018. 
 
 import time 
 
@@ -16,7 +16,7 @@ def count(str):
    
    current_day   = time.strftime("%d")
    current_month = time.strftime("%m")
-   current_year  = time.strftime("%Y")  # year with century as a decimal number  
+   current_year  = time.strftime("%Y")  # display year with century as a decimal number  
    
    if (month %2 != 0 or month == 8 and day > 31): 
       print("Error: can't have more than 31 days in a month.")
