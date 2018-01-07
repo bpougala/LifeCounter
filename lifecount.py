@@ -4,6 +4,7 @@
 # Created by Biko Pougala on 6th January, 2018. 
 
 import time 
+import sys
 
 def count(str): 
    day_   = str[0] + str[1]
@@ -12,13 +13,13 @@ def count(str):
    
    day = int(day_)
    month = int(month_)
-   year_ = int(year_) 
+   year = int(year_) 
    
-   current_day   = time.strftime("%d")
-   current_month = time.strftime("%m")
-   current_year  = time.strftime("%Y")  # display year with century as a decimal number  
+   current_day   = int(time.strftime("%d"))
+   current_month = int(time.strftime("%m"))
+   current_year  = int(time.strftime("%Y"))  # display year with century as a decimal number  
    
-   if (month %2 != 0 or month == 8 and day > 31): 
+   if ((month %2 != 0 or month == 8) and day > 31): 
       print("Error: can't have more than 31 days in a month.")
    elif (month == 2 and year % 4 != 0 and day > 29):  # account for leap years 
       print("Error: can't have more than 29 days in February.")
@@ -26,13 +27,14 @@ def count(str):
       print("Error: can't have more than 30 days in this month.")   
    elif (month == 2 and year % 4 != 0 and day > 28): 
       print("Error: can't have more than 28 days in February.") 
-   elif (day > current_day and month > current_month and year > current_month): 
+   elif (day > current_day and month > current_month and year > current_year): 
       print("Error: you're not born yet!") 
    else: 
       
       age = current_year - year
       number_days = (age - 1) * 365 + age/4   # we add age/4 to account for leap years
       split = (12 - month)/2 
+      remaining_days_1 = 0
       if (month%2 == 0 and month != 2 and month != 8):
          remaning_days_1 = 30 - day
       elif (month%2 != 0 or month == 8): 
@@ -58,26 +60,33 @@ def count(str):
          
       # we've computed the number of days lived in our birth year 
       # we now need to compute the number of days lived in the current year 
-
-      if (current_month %2 == 0 and current_month != 2 and current_year%4 != 0): 
-          remaining_days_2 = 28 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1) 
-      elif (current_month %2 == 0 and current_month != 2 and current_year%4 == 0):
-          remaining_days_2 = 29 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
-      elif (current_month == 2):
-          remaining_days_2 = 31 + current_day 
-      elif (current_month %2 != 0 and current_year %4 != 0): 
-          remaining_days_2  = 28 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
-      elif (current_month %2 != 0 and current_year %4 == 0): 
-          remaining_days_2 = 29 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
+      
+      if ((current_year % 4) != 0): # if this isn't a leap year
+           if ((current_month %2) == 0 and current_month != 2): 
+               remaining_days_2 = 28 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1) 
+           elif ((current_month %2) != 0): 
+               remaining_days_2  = 28 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
+           elif (current_month == 2):
+               remaining_days_2 = 31 + current_day 
+               
+      else:      # if this is a leap year
+           if ((current_month %2 == 0) and current_month != 2):
+               remaining_days_2 = 29 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
+           elif ((current_month %2) != 0): 
+               remaining_days_2 = 29 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
+           elif (current_month == 2):
+               remaining_days_2 = 31 + current_day 
+      
+      
           
-   return day + remaining_days_1 + remaining_days_2  
+      return day + remaining_days_1 + remaining_days_2 + number_days
 
 
-def main(argv): 
-   print("Enter your date of birth in format dd/mm/yyyy :")
-   print(count(str(argv)))
+def main(): 
+   user_date = raw_input("Enter your date of birth in format dd/mm/yyyy :")
+   print("You've lived " + str(count(user_date)) + " days.")
    
    
   
 if __name__ == "__main__":
-   main(sys.argv[1:])
+   main()
