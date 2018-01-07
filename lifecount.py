@@ -29,6 +29,7 @@ def count(str):
    elif (day > current_day and month > current_month and year > current_month): 
       print("Error: you're not born yet!") 
    else: 
+      
       age = current_year - year
       number_days = (age - 1) * 365 + age/4   # we add age/4 to account for leap years
       split = (12 - month)/2 
@@ -69,7 +70,7 @@ def count(str):
       elif (current_month %2 != 0 and current_year %4 == 0): 
           remaining_days_2 = 29 * 1 + 31 * (month/2) + 30 * (month - month/2 - 1)
           
-      return day + remaining_days_1 + remaining_days_2  
+   return day + remaining_days_1 + remaining_days_2  
 
 
 def main(argv): 
